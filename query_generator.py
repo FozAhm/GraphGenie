@@ -266,16 +266,27 @@ class RandomCypherGenerator():
             print("node num: {} tested vectors:{}".format(self._node_num, self._last_vector_length+1))
             self._path_vectors.append(path_vector)
             print("Slow Part Ends V2")
+        
         if self._last_vector_length == len(self._path_vectors):
+            print("Slow Part Starts V3")
             self.stuck += 1
+            print("Slow Part Ends V3")
         else:
+            print("Slow Part Starts V4")
             self.stuck = 0
+            print("Slow Part Ends V4")
+
+        print("Slow Part Starts V5")
         self._last_vector_length = len(self._path_vectors)
+        print("Slow Part Ends V5")
+        
         if self.stuck==2*self._node_num*self._node_num:
+            print("Slow Part Starts V6")
             self.stuck = 0
             self._node_num += 1
             self._last_vector_length = 0
             self._path_vectors.clear()
+            print("Slow Part Ends V6")
 
     # TODO: add more predicate
     def predicate_generator(self):
