@@ -42,12 +42,14 @@ class SchemaScanner:
 
 class Neo4jSchemaScanner(SchemaScanner):
     def neo4j_init(self):
+        print("Starting Schema Scanner")
         url = "bolt://{}:{}".format(self.ip, self.port)
         username = self.username
         password = self.password
         self.driver = GraphDatabase.driver(url, auth=(username, password))
         
     def scan(self):
+        print("Scan")
         self.neo4j_init()
         get_node_count_query = "MATCH (n) RETURN count(n)"
         self.node_count = (list(self.execute_query(get_node_count_query)[0].values())[0])
@@ -79,6 +81,7 @@ class Neo4jSchemaScanner(SchemaScanner):
         return self.node_labels, self.edge_labels, self.node_properties, self.connectivity_matrix
 
     def scan_properties(self):
+        print("Scan Properties")
         get_properties_query = """
             MATCH (n:{})
             WITH DISTINCT(keys(n)) as key_sets
@@ -93,6 +96,7 @@ class Neo4jSchemaScanner(SchemaScanner):
             self.node_properties[each_node_label] = properties
 
     def scan_connectivity(self):
+        print("Scan Connectivity")
         for each_node_label in self.node_labels:
             matrix_row = []
             for each_test_node_label in self.node_labels:
@@ -109,6 +113,7 @@ class Neo4jSchemaScanner(SchemaScanner):
         self.print_connectivity()
 
     def execute_query(self, query):
+        print("Execute Query")
         with self.driver.session() as session:
             query_result = session.execute_write(self._new_execute, query)
             return query_result

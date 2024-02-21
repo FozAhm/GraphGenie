@@ -31,6 +31,7 @@ class RandomCypherGenerator():
     _other = ""
 
     def __init__(self, node_labels, edge_labels, node_properties, connectivity_matrix):
+        print("Initializing Query Generator")
         config = configparser.ConfigParser()
         config.read('graphgenie.ini')
         self.graphdb = config['default']['graphdb']
@@ -58,6 +59,7 @@ class RandomCypherGenerator():
 
     # call before each run of test
     def init(self):
+        print("Initializing Query Generator")
         config = configparser.ConfigParser()
         config.read('graphgenie.ini')
         self._node_num = int(config['testing_configs']['_node_num'])
@@ -68,6 +70,7 @@ class RandomCypherGenerator():
 
     # note: call before each generation
     def init_query(self):
+        print("Initializing Query Function")
         self._match = ""
         self._path = ""
         self._predicate = ""
@@ -82,6 +85,7 @@ class RandomCypherGenerator():
     # this is a random choice api for a given rate
     # e.g., if given_rate = 0.3, then 30% returns true and 70% return false
     def random_choice(self, given_rate):
+        print("Random Choice Function")
         if randint(1,100)<=given_rate*100:
             return True
         else:
@@ -90,6 +94,7 @@ class RandomCypherGenerator():
     # this is a random symbol generator
     # note: we only consider lowercase letters in ascii
     def random_symbol(self):
+        print("Random Symbol Function")
         return ''.join(choice(string.ascii_lowercase) for _ in range(self.random_symbol_len))
 
     # _match indicates the query is a graph-matching query rather than add/update/delete queries
@@ -179,6 +184,7 @@ class RandomCypherGenerator():
 
     # it is important to generate diverse graph query patterns
     def path_generator(self):
+        print("Path Generator Function")
         nodes_num = self._node_num
         path = ""
         prev_node_label = ""
@@ -211,6 +217,7 @@ class RandomCypherGenerator():
         self.path_parser()
 
     def path_parser(self):
+        print("Path Parser Function")
         self.nodes_num = self._path.count('-')/2 + 1
         symbol_list = re.findall("[(,\[][a-z]{{{sym_len}}}".format(sym_len=self.random_symbol_len), self._path)
         symbol_list_with_labels = re.findall("[(,\[][a-z]{{{sym_len}}}[:]?[\w]+".format(sym_len=self.random_symbol_len), self._path)
