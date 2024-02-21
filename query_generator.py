@@ -31,7 +31,7 @@ class RandomCypherGenerator():
     _other = ""
 
     def __init__(self, node_labels, edge_labels, node_properties, connectivity_matrix):
-        print("Initializing Query Generator")
+        print("Initializing Query Generator with Schema")
         config = configparser.ConfigParser()
         config.read('graphgenie.ini')
         self.graphdb = config['default']['graphdb']
@@ -59,7 +59,7 @@ class RandomCypherGenerator():
 
     # call before each run of test
     def init(self):
-        print("Initializing Query Generator")
+        print("Initializing Query Generator without Schema")
         config = configparser.ConfigParser()
         config.read('graphgenie.ini')
         self._node_num = int(config['testing_configs']['_node_num'])

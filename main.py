@@ -312,19 +312,23 @@ if __name__ == "__main__":
     password = config['default']['password']
 
     if graphdb=="neo4j":
+        print("Tesitng Neo4J")
         from neo4j import GraphDatabase
         test = Neo4jTesting()
     elif graphdb=="redisgraph":
+        print("Tesitng RedisGraph")
         import redis
         from redisgraph import Node, Edge, Graph, Path
         test = RedisGraphTesting()
     elif graphdb=="agensgraph":
+        print("Tesitng AgensGraph")
         import psycopg2
         test = AgensGraphTesting()
     else:
         pass
 
     if language=="cypher" and graphdb=="neo4j":
+        print('Scanning Cypher Neo4J DB Schema')
         schema_scanner = Neo4jSchemaScanner(ip, port, username, password)
         node_labels, edge_labels, node_properties, connectivity_matrix = schema_scanner.scan()
     else:
@@ -336,6 +340,7 @@ if __name__ == "__main__":
         node_properties = []
         connectivity_matrix = []
 
+    print("Generating Random Cypher Queries Based on DB Schema")
     random_cypher_generator = RandomCypherGenerator(node_labels, edge_labels, node_properties, connectivity_matrix)
     cypher_query_mutator = CypherQueryMutator(node_labels, edge_labels, node_properties, connectivity_matrix)
     test.testing(random_cypher_generator, cypher_query_mutator)
