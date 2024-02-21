@@ -243,8 +243,11 @@ class RandomCypherGenerator():
         # record node labels only, save as vector.
         all_nodes = re.findall("\([A-Za-z0-9:]*\)", self._path)
         path_vector = []
+        print("looping through nodes - start")
+        counter = 0
         for each_node in all_nodes:
-            print("looping through nodes")
+            print("Iteration #" + str(counter))
+            counter += 1
             if ':' not in each_node:
                 path_vector.append(0)
             else:
@@ -252,6 +255,7 @@ class RandomCypherGenerator():
                 node_label = each_node.split(':')[1].split(')')[0]
                 path_vector.append(self.node_labels.index(node_label)+1)
                 print("Slow Part Ends V1")
+        print("looping through nodes - end - count = " + str(counter))
 
         # the code below is for incremental base query generation
         # we encode the graph pattern into vectors
@@ -261,7 +265,7 @@ class RandomCypherGenerator():
             print("Slow Part Starts V2")
             print("node num: {} tested vectors:{}".format(self._node_num, self._last_vector_length+1))
             self._path_vectors.append(path_vector)
-            print("Slow Part Ends V1")
+            print("Slow Part Ends V2")
         if self._last_vector_length == len(self._path_vectors):
             self.stuck += 1
         else:
