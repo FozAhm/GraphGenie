@@ -222,6 +222,7 @@ class RandomCypherGenerator():
         symbol_list = re.findall("[(,\[][a-z]{{{sym_len}}}".format(sym_len=self.random_symbol_len), self._path)
         symbol_list_with_labels = re.findall("[(,\[][a-z]{{{sym_len}}}[:]?[\w]+".format(sym_len=self.random_symbol_len), self._path)
         for each_symbol in symbol_list:
+            print("looping through symbols")
             symbol_name = each_symbol[1:]
             self.symbols.append(symbol_name)
             if each_symbol[0]=="(":
@@ -229,6 +230,7 @@ class RandomCypherGenerator():
             elif each_symbol[0]=="[":
                 self.edge_symbols.append(symbol_name)
         for each_symbol in symbol_list_with_labels:
+            print("looping through symbols with labels")
             symbol_name = each_symbol[1:].split(':')[0]
             symbol_label = each_symbol[1:].split(':')[1]
             self.symbols.append(symbol_name)
@@ -242,6 +244,7 @@ class RandomCypherGenerator():
         all_nodes = re.findall("\([A-Za-z0-9:]*\)", self._path)
         path_vector = []
         for each_node in all_nodes:
+            print("looping through nodes")
             if ':' not in each_node:
                 path_vector.append(0)
             else:
