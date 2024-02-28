@@ -100,6 +100,7 @@ class RandomCypherGenerator():
     # _match indicates the query is a graph-matching query rather than add/update/delete queries
     # cypher: `match` or `optional match` clause
     def match_generator(self):
+        print("Match Generator Function")
         match_candidates = ["MATCH", "OPTIONAL MATCH"]
         self._match = choice(match_candidates)
 
@@ -292,12 +293,14 @@ class RandomCypherGenerator():
 
     # TODO: add more predicate
     def predicate_generator(self):
+        print("Predicate Generator Function")
         pattern = "WHERE {}"
         predicate = "{} IS NOT NULL AND True".format(choice(self.node_symbols)) if len(self.node_symbols)>0 else "True"
         self._predicate = pattern.format(predicate)
 
     # note: we focus on testing `count`
     def return_generator(self):
+        print("Return Generator Function")
         _return = "{return_keyword} {return_staff}"
         return_keywords = ["RETURN", "RETURN DISTINCT"]
         # TODO: to support count(DISTINCT ), max(), min()
@@ -310,6 +313,7 @@ class RandomCypherGenerator():
 
     # for count() testing, we do not really need other clauses
     def other_generator(self):
+        print("Other Generator Function")
         _other = "{order_by} {skip} {limit}"
         order_by_keywords = ["", "ORDER BY -1+1", "ORDER BY NULL"]
         skip_keywords = ["", "SKIP 1", "SKIP 0", "SKIP 0", "SKIP 0", "SKIP 0", "SKIP 0", "SKIP 0",]
@@ -321,12 +325,26 @@ class RandomCypherGenerator():
         )
 
     def random_query_generator(self):
+        print("Random Query Generator Function")
+        print("Calling Initializing Query Function")
         self.init_query()
+        print("Initializing Query Function Returned")
+        print("Calling Match Generator Function")
         self.match_generator()
+        print("Match Generator Function Returned")
+        print("Calling Path Generator Function")
         self.path_generator()
+        print("Path Generator Function Returned")
+        print("Calling Predicate Generator Function")
         self.predicate_generator()
+        print("Predicate Generator Function Returned")
+        print("Calling Return Generator Function")
         self.return_generator()
+        print("Return Generator Function Returned")
+        print("Calling Return Generator Function")
         self.other_generator()
+        print("Return Generator Function Returned")
+
         query = self.cypher_query_pattern.format(
             _match = self._match,
             _path = self._path,
@@ -334,6 +352,7 @@ class RandomCypherGenerator():
             _return = self._return,
             _other = self._other
         )
+        
         query = re.sub(' +', ' ', query).strip(' ')
         query = re.sub('[*]+', '*', query).strip(' ')
         return query
