@@ -105,6 +105,7 @@ class RandomCypherGenerator():
         self._match = choice(match_candidates)
 
     def random_node_multi_labels(self):
+        print("Random Node Multi Labels Function")
         label_num = len(self.node_labels)
         random_num = randint(2, label_num)
         node_label = choice(self.node_labels)
@@ -113,6 +114,7 @@ class RandomCypherGenerator():
         return node_label
 
     def random_edge_types(self):
+        print("Random Edge Types Function")
         type_num = len(self.edge_labels)
         random_num = randint(2, type_num)
         edge_type = choice(self.edge_labels)
@@ -122,6 +124,7 @@ class RandomCypherGenerator():
 
     # given the previous node, use connectivity matrix to find connectable node labels
     def connectable_node_labels(self, prev_node_label, prev_node_direction):
+        print("Connectable Node Labels Function")
         if self.graphdb!="neo4j":
             return self.node_labels
         if prev_node_label==None or prev_node_label=="" or "%" in self.node_labels:
@@ -144,6 +147,7 @@ class RandomCypherGenerator():
 
     # to generate random path unit
     def random_path_unit(self, prev_node_label=None, prev_node_direction=None):
+        print("Random Path Unit Function")
         connectable_node_labels = self.connectable_node_labels(prev_node_label, prev_node_direction)
         path_unit_candidates = [
             "({node_sym})-[{edge_sym}]-",
@@ -168,6 +172,7 @@ class RandomCypherGenerator():
         return random_unit.format(node_sym=random_node_sym, edge_sym=random_edge_sym)
 
     def cypher_get_unit_direction(self, path_unit):
+        print("Cypher Get Unit Direction Function")
         if "<" in path_unit:
             return "<"
         elif ">" in path_unit:
@@ -176,6 +181,7 @@ class RandomCypherGenerator():
             return "-"
 
     def parse_path_unit_node_label(self, path_unit):
+        print("Parser Path Unit Node Label Function")
         the_node = path_unit.split('-')[0]
         if ':' not in the_node:
             return ""
