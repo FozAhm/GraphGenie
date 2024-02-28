@@ -341,6 +341,9 @@ if __name__ == "__main__":
         connectivity_matrix = []
 
     print("Generating Random Cypher Queries Based on DB Schema")
+    print("Generate Random Cypher Query")
     random_cypher_generator = RandomCypherGenerator(node_labels, edge_labels, node_properties, connectivity_matrix)
+    print("Mutate Random Cypher Query")
     cypher_query_mutator = CypherQueryMutator(node_labels, edge_labels, node_properties, connectivity_matrix)
+    print("Test Random Cypher Query")
     test.testing(random_cypher_generator, cypher_query_mutator)
