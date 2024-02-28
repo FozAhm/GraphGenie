@@ -214,7 +214,9 @@ class RandomCypherGenerator():
             )
             path = ("({cyc})-{path}-({cyc})".format(cyc=cyclic_str, path="-".join(path.split("-")[1:-1])))
         self._path = path
+        print("Calling Path Parser Function")
         self.path_parser()
+        print("Path Parser Function Returned")
 
     def path_parser(self):
         print("Path Parser Function")
