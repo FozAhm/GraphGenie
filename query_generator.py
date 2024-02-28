@@ -325,7 +325,7 @@ class RandomCypherGenerator():
         )
 
     def random_query_generator(self):
-        print("Random Query Generator Function")
+        print("***Random Query Generator Function***")
         print("Calling Initializing Query Function")
         self.init_query()
         print("Initializing Query Function Returned")
@@ -341,10 +341,11 @@ class RandomCypherGenerator():
         print("Calling Return Generator Function")
         self.return_generator()
         print("Return Generator Function Returned")
-        print("Calling Return Generator Function")
+        print("Calling Other Generator Function")
         self.other_generator()
-        print("Return Generator Function Returned")
+        print("Return Other Function Returned")
 
+        print("Create Query Base")
         query = self.cypher_query_pattern.format(
             _match = self._match,
             _path = self._path,
@@ -352,7 +353,9 @@ class RandomCypherGenerator():
             _return = self._return,
             _other = self._other
         )
-        
+
+        print("Format Query")
         query = re.sub(' +', ' ', query).strip(' ')
         query = re.sub('[*]+', '*', query).strip(' ')
+        print("Returning Query")
         return query
