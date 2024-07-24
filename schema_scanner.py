@@ -113,7 +113,7 @@ class Neo4jSchemaScanner(SchemaScanner):
         self.print_connectivity()
 
     def execute_query(self, query):
-        print("Execute Query")
+        # print("Execute Query")
         with self.driver.session() as session:
             query_result = session.execute_write(self._new_execute, query)
             return query_result
