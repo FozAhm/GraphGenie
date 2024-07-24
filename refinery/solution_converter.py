@@ -2,9 +2,12 @@
 import re
 from neo4j import GraphDatabase
 
+# Program Properties
+print_flag = False
+
 # Setup Datebase Connection
 ip = "3.99.79.114"
-port = "7687"
+port = "7688"
 username = 'neo4j'
 password = 'mcgill123!'
 
@@ -26,7 +29,7 @@ for line in solution_file_lines:
     line_stripped = line.strip()
     solution_file_lines_stripped.append(line_stripped)
     if 'declare' in line_stripped:
-        print("Found start of graph data: " + str(count))
+        if print_flag: print("Found start of graph data: " + str(count))
         start_index = count
     
     count += 1
@@ -41,7 +44,9 @@ transition_regex = "^(\w+)\((\w+),\s*(\w+)\)\.$"
 delimiters = ["(", ")", ",", "."]
 
 node_types = set()
+num_nodes = 0
 transition_types = set()
+num_edges = 0
 for line in graph_instance:
 
     if re.search(node_regex, line):
@@ -49,11 +54,12 @@ for line in graph_instance:
         node_type = regex_match.group(1)  # This will be 'Actor'
         node_id = regex_match.group(2)  # This will be 'actor5'
         # print("Node Line: ", line)
-        print("Node Type:", node_type, "| Node ID:", node_id)
+        if print_flag: print("Node Type:", node_type, "| Node ID:", node_id)
         node_types.add(node_type)
+        num_nodes += 1
         with driver.session() as session:
             create_node_query = "MERGE ({}:{} {{rid: '{}'}})".format(node_id, node_type, node_id)
-            print("Create Node Query:", create_node_query)
+            if print_flag: print("Create Node Query:", create_node_query)
             session.run(create_node_query)
     elif re.search(transition_regex, line):
         regex_match = re.search(transition_regex, line)
@@ -61,20 +67,23 @@ for line in graph_instance:
         transition_source = regex_match.group(2)
         transition_target = regex_match.group(3)
         # print("Transition Line: ", line)
-        print("Transition Type:", transition_type, "| Source Node:", transition_source, "-> Target Node:", transition_target)
+        if print_flag: print("Transition Type:", transition_type, "| Source Node:", transition_source, "-> Target Node:", transition_target)
         transition_types.add(transition_type)
+        num_edges += 1
         with driver.session() as session:
             create_edge_query = """
             MATCH (a {{rid: '{}'}}), (b {{rid: '{}'}})
             MERGE (a)-[r:{}]->(b)
             RETURN type(r)
             """.format(transition_source, transition_target, transition_type)
-            print("Create Edge Query:", create_edge_query)
+            if print_flag: print("Create Edge Query:", create_edge_query)
             session.run(create_edge_query)
     else:
-        print("Metadata: ", line)
+        if print_flag: print("Metadata: ", line)
 
 print("Node Types:", node_types)
 print("Transition Types:", transition_types)
+print("Number of Nodes:", num_nodes)
+print("Number of Edges:", num_edges)
 
 driver.close()
