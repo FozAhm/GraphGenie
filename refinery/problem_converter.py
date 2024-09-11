@@ -2,17 +2,22 @@ import os
 import time
 import nltk
 import random
+import sys
 from nltk.corpus import words
 from neo4j import GraphDatabase
 
 # Program Properties
 print_flag = False
-random_seed = 4
+random_seed = 3
 random.seed(random_seed)
+mutation_operation = 0
+
+# Set the Problem File
+output_problem_folder = "/Users/fozail/SchoolDev/graphs4value/testing/pipeline/5.1.0"
 
 # Database Properties
-ip = "3.99.79.114"
-port = "7688"
+ip = "3.98.142.46"
+port = "7687"
 username = 'neo4j'
 password = 'mcgill123!'
 
@@ -24,7 +29,7 @@ connectivity_matrix = {}
 # Download required NLTK data
 nltk.download('words', quiet=True)
 
-def convert_to_refinery():
+def convert_to_refinery(scope=30):
     
     # Setup empty list for lines of reinfery problem
     refinery_problem = []
@@ -60,11 +65,20 @@ def convert_to_refinery():
         node_refinery_definition.append('')
         # Append node defintion to refinery problem data deifntion
         refinery_problem = refinery_problem + node_refinery_definition
+    
+    # Add a scope
+    refinery_problem.append("scope node = " + str(scope) + ".." + str(int(scope*1.1)) + ".")
+    refinery_problem.append('')
 
     for line in refinery_problem:
-        print(line)
+        if print_flag: print(line)
     
     return refinery_problem
+
+def save_to_file(contents, location):
+    with open(location, 'w') as file:
+        for line in contents:
+            file.write(f"{line}\n")
 
 
 def generate_new_word(existing_words):
@@ -320,8 +334,42 @@ def main():
     print(edge_labels)
     print(connectivity_matrix)
 
-    refinery_problem = convert_to_refinery()
-    
+    if mutation_operation == 0:
+        temp_file_path_base = output_problem_folder + "/graphOrig"
+    elif mutation_operation == 1:
+        temp_file_path_base = output_problem_folder + "/graphAddNodeType"
+        add_node_label()
+    elif mutation_operation == 2:
+        temp_file_path_base = output_problem_folder + "/graphDelNodeType"
+        delete_node_label()
+    elif mutation_operation == 3:
+        temp_file_path_base = output_problem_folder + "/graphAddEdgeType"
+        add_edge_label()
+    elif mutation_operation == 4:
+        temp_file_path_base = output_problem_folder + "/graphAddEdge"
+        add_edge()
+    elif mutation_operation == 5:
+        temp_file_path_base = output_problem_folder + "/graphAddEdgeReverse"
+        add_edge_reverse()
+    elif mutation_operation == 6:
+        temp_file_path_base = output_problem_folder + "/graphDelEdgeType"
+        delete_edge_label()
+    elif mutation_operation == 7:
+        temp_file_path_base = output_problem_folder + "/graphMoveEdge"
+        move_edge()
+    elif mutation_operation == 8:
+        temp_file_path_base = output_problem_folder + "/graphChEdgeDir"
+        change_edge_direction()
+
+    # Node Count Range
+    scopes = [30, 300, 3000]
+    for size in scopes:
+        # Set the base path for all output problem files
+        temp_file_path = temp_file_path_base + str(size) + ".problem"
+
+        refinery_problem = convert_to_refinery(scope=size)
+        save_to_file(refinery_problem,temp_file_path)
+
     
     # Add a new node
     # change_edge_direction()
@@ -329,10 +377,11 @@ def main():
     # print(edge_labels)
     # print(connectivity_matrix)
 
-    refinery_problem = convert_to_refinery()
+    # refinery_problem = convert_to_refinery()
     
 
 
 if __name__ == '__main__':
+    mutation_operation = int(sys.argv[1])
     main()
 
