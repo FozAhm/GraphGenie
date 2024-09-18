@@ -15,7 +15,7 @@ url = "bolt://{}:{}".format(ip, port)
 driver = GraphDatabase.driver(url, auth=(username, password))
 
 # Get the Solution File
-input_solution_file = "/Users/fozail/SchoolDev/graphs4value/testing/graph.solution"
+input_solution_file = "/Users/fozail/SchoolDev/graphs4value/testing/pipeline/5.1.0/graphAddEdge30R1.solution"
 
 solution_file = open(input_solution_file, 'r')
 solution_file_lines = solution_file.readlines()
@@ -63,7 +63,10 @@ for line in graph_instance:
             session.run(create_node_query)
     elif re.search(transition_regex, line):
         regex_match = re.search(transition_regex, line)
+        # Get the transition type
         transition_type = regex_match.group(1)
+        # Remove the Refinery specific numbering for transitions
+        transition_type = transition_type[:-1]
         transition_source = regex_match.group(2)
         transition_target = regex_match.group(3)
         # print("Transition Line: ", line)
