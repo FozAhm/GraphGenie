@@ -3,6 +3,7 @@ import time
 import nltk
 import random
 import sys
+import math
 from nltk.corpus import words
 from neo4j import GraphDatabase
 
@@ -16,7 +17,7 @@ mutation_operation = 0
 output_problem_folder = "/Users/fozail/SchoolDev/graphs4value/testing/pipeline/5.1.0"
 
 # Database Properties
-ip = "3.98.142.46"
+ip = "15.222.184.98"
 port = "7687"
 username = 'neo4j'
 password = 'mcgill123!'
@@ -34,6 +35,17 @@ def convert_to_refinery(scope=30):
     # Setup empty list for lines of reinfery problem
     refinery_problem = []
 
+    # Get the number of node labels
+    num_node_labels = len(node_labels)
+    # Based on the scope of the graph and mumber of node labels set the minimum required number of nodes of each type
+    min_node_scope = int(scope/2/num_node_labels)
+    # Based on the minimum number of nodes of each type, set the maxium number of edges for each type for each node
+    max_edge_scope = int(math.sqrt(min_node_scope))
+    if max_edge_scope < 10:
+        max_edge_scope = 10
+
+    # Number each edge (even if the same) as refinery deals wtih each edge being different
+    edge_counter = 0
     for node_label in node_labels:
         # define a temp defintion of the node label in refinery format
         node_refinery_definition = []
@@ -52,8 +64,9 @@ def convert_to_refinery(scope=30):
             else:
                 for edge in edges:
                     node_edge_counter += 1
+                    edge_counter += 1
                     if print_flag: print("Edge #" + str(node_edge_counter) + ": " + str(edge))
-                    node_refinery_definition.append('    ' + str(target_node_label) + '[1..*] ' + str(edge))
+                    node_refinery_definition.append('    ' + str(target_node_label) + '[1..' + str(max_edge_scope) + '] ' + str(edge) + str(edge_counter))
         
         if node_edge_counter == 0:
             node_refinery_definition.insert(0, 'class ' + str(node_label) + '.')
@@ -66,8 +79,16 @@ def convert_to_refinery(scope=30):
         # Append node defintion to refinery problem data deifntion
         refinery_problem = refinery_problem + node_refinery_definition
     
-    # Add a scope
-    refinery_problem.append("scope node = " + str(scope) + ".." + str(int(scope*1.1)) + ".")
+    # Add a global node scope
+    refinery_scope = "scope node = " + str(scope) + ".." + str(int(scope*1.1))
+    # Add a scope for each node type
+    for node_label in node_labels:
+        refinery_scope = refinery_scope + ", " + node_label + " = " + str(min_node_scope) + "..*"
+    # Complete Scope String
+    refinery_scope = refinery_scope + "."
+    # Add scope statement to file
+    refinery_problem.append(refinery_scope)
+
     refinery_problem.append('')
 
     for line in refinery_problem:
