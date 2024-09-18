@@ -8,6 +8,9 @@ configparser = "*"
 neo4j = "*"
 psycopg2-binary = "*"
 redisgraph = "*"
+nltk = "*"
+transformers = "*"
+torch = "*"
 
 [dev-packages]
 
