@@ -1,0 +1,2 @@
+sudo docker pull neo4j:5.16.0-bullseye
+sudo docker run --restart always --publish=7474:7474 --publish=7687:7687 --env NEO4J_AUTH=neo4j/mcgill123! --name neo4j -d --volume=$HOME/neo4j/data:/data --volume=$HOME/neo4j/logs:/logs neo4j:5.16.0-bullseye
