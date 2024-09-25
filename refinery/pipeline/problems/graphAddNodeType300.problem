@@ -1,0 +1,31 @@
+class Actor{
+    Movie[1..10] DIRECTED1
+    Movie[1..10] ACTED_IN2
+}
+
+class Director{
+    Movie[1..10] DIRECTED3
+    Movie[1..10] ACTED_IN4
+}
+
+class Genre.
+
+class Movie{
+    Genre[1..10] IN_GENRE5
+}
+
+class Person{
+    Movie[1..10] DIRECTED6
+    Movie[1..10] ACTED_IN7
+}
+
+class User{
+    Movie[1..10] RATED8
+}
+
+class enjambment{
+    Person[1..10] pretyphoid9
+}
+
+scope node = 300..330, Actor = 21..*, Director = 21..*, Genre = 21..*, Movie = 21..*, Person = 21..*, User = 21..*, enjambment = 21..*.
+

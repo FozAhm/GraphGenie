@@ -1,0 +1,27 @@
+class Actor{
+    Movie[1..15] ACTED_IN1
+    Movie[1..15] DIRECTED2
+}
+
+class Director{
+    Movie[1..15] ACTED_IN3
+}
+
+class Genre.
+
+class Movie{
+    Director[1..15] DIRECTED4
+    Genre[1..15] IN_GENRE5
+}
+
+class Person{
+    Movie[1..15] ACTED_IN6
+    Movie[1..15] DIRECTED7
+}
+
+class User{
+    Movie[1..15] RATED8
+}
+
+scope node = 3000..3300, Actor = 250..*, Director = 250..*, Genre = 250..*, Movie = 250..*, Person = 250..*, User = 250..*.
+
