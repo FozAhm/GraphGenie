@@ -4,3 +4,4 @@ sudo docker run --interactive --tty --rm --volume=$HOME/neo4j/data:/data --volum
 
 sudo docker run --restart always --publish=7474:7474 --publish=7687:7687 --env NEO4J_AUTH=neo4j/mcgill123! --name neo4j -d --volume=$HOME/neo4j/data:/data --volume=$HOME/neo4j/logs:/logs neo4j:5.16.0-bullseye
 sudo docker run --restart always --publish=7474:7474 --publish=7687:7687 --env NEO4J_AUTH=neo4j/mcgill123! --name neo4j -d --volume=$HOME/neo4j/versions/5.21.2/data:/data --volume=$HOME/neo4j/versions/5.21.2/logs:/logs neo4j:5.21.2-community
+sudo docker run --restart always --publish=7474:7474 --publish=7687:7687 --env NEO4J_AUTH=neo4j/mcgill123! --name neo4j -d --volume=$HOME/neo4j/versions/5.1.0/data:/data --volume=$HOME/neo4j/versions/5.1.0/logs:/logs neo4j:5.1.0-community

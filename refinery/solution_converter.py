@@ -96,6 +96,6 @@ def main():
     driver.close()
 
 if __name__ == '__main__':
-    solution_file = str(sys.argv[1])
+    input_solution_file = str(sys.argv[1])
     ip = str(sys.argv[2])
     main()
