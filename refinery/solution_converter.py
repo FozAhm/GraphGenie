@@ -18,6 +18,7 @@ input_solution_file = "/Users/fozail/SchoolDev/graphs4value/testing/pipeline/5.1
 def main():
 
     url = "bolt://{}:{}".format(ip, port)
+    print("Connecting to DB: " + url)
     driver = GraphDatabase.driver(url, auth=(username, password))
 
     solution_file = open(input_solution_file, 'r')
