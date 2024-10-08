@@ -21,12 +21,17 @@ mkdir versions
 cd versions/
 mkdir 5.1.0
 mkdir 5.4.0
+mkdir 5.20.0
 mkdir 5.21.2
 cd 5.1.0/
 mkdir backups
 mkdir data
 mkdir logs
 cd ../5.4.0/
+mkdir backups
+mkdir data
+mkdir logs
+cd ../5.20.0/
 mkdir backups
 mkdir data
 mkdir logs
@@ -44,14 +49,18 @@ cp ~/dev/recommendations/data/recommendations-50.dump ~/neo4j/versions/5.1.0/bac
 cp ~/neo4j/versions/5.1.0/backups/recommendations-50.dump ~/neo4j/versions/5.1.0/backups/neo4j.dump
 cp ~/dev/recommendations/data/recommendations-50.dump ~/neo4j/versions/5.4.0/backups/recommendations-50.dump
 cp ~/neo4j/versions/5.4.0/backups/recommendations-50.dump ~/neo4j/versions/5.4.0/backups/neo4j.dump
+cp ~/dev/recommendations/data/recommendations-50.dump ~/neo4j/versions/5.20.0/backups/recommendations-50.dump
+cp ~/neo4j/versions/5.20.0/backups/recommendations-50.dump ~/neo4j/versions/5.20.0/backups/neo4j.dump
 cp ~/dev/recommendations/data/recommendations-50.dump ~/neo4j/versions/5.21.2/backups/recommendations-50.dump
 cp ~/neo4j/versions/5.21.2/backups/recommendations-50.dump ~/neo4j/versions/5.21.2/backups/neo4j.dump
 
 sudo docker pull neo4j/neo4j-admin:5.1.0-community
 sudo docker pull neo4j/neo4j-admin:5.4.0-community
+sudo docker pull neo4j/neo4j-admin:5.20.0-community
 sudo docker pull neo4j/neo4j-admin:5.21.2-community
 sudo docker pull neo4j:5.1.0-community
 sudo docker pull neo4j:5.4.0-community
+sudo docker pull neo4j:5.20.0-community
 sudo docker pull neo4j:5.21.2-community
 
 
